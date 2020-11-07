@@ -1,0 +1,7 @@
+FROM asia.gcr.io/owlting-gcp/agricultural_products_api:base
+
+# Copy source files
+COPY --chown=www-data:www-data . $APP_HOME
+
+RUN composer install --no-interaction --no-dev --optimize-autoloader
+

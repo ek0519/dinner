@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+
+  ### Laravel ######################################################
+
+  laravel:
+    build:
+      context: .
+      args:
+        - INSTALL_OPCACHE=false
+        - INSTALL_NODE=true
+    ports:
+      - "8000:80"
+      - "6001:6001"
+    depends_on:
+      - mysql
+      - redis-sentinel
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/storage/clockwork
+
+  ### Mysql ################################################
+
+  mysql:
+    image: mysql:5.7.19
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+    entrypoint:
+      - bash
+      - -c
+      - |
+        echo -e "CREATE DATABASE IF NOT EXISTS laravel;
+                 CREATE DATABASE IF NOT EXISTS laravel_testing;
+                 CREATE DATABASE IF NOT EXISTS laravel_logs;" > /docker-entrypoint-initdb.d/init.sql;
+        /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  ### Redis Master ################################################
+
+  redis-master:
+    image: redis:4.0.11-alpine
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  ### Redis Slave ################################################
+
+  redis-slave:
+    image: redis:4.0.11-alpine
+    restart: unless-stopped
+    command: redis-server --slaveof redis-master 6379
+    ports:
+      - 6380:6379
+    depends_on:
+      - redis-master
+
+  ### Redis Sentinel ################################################
+
+  redis-sentinel:
+    image: redis:4.0.11-alpine
+    restart: unless-stopped
+    command: >
+      sh -c "echo -e 'sentinel monitor mymaster redis-master 6379 2' > /etc/sentinel.conf &&
+             redis-sentinel /etc/sentinel.conf"
+    ports:
+      - 26379:26379
+    depends_on:
+      - redis-master
+      - redis-slave
+
+volumes:
+  mysql:
