@@ -12,7 +12,7 @@ ARG INSTALL_XDEBUG=false
 ARG INSTALL_OPCACHE=true
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ers
+
 RUN apt-get update -y && \
     pecl channel-update pecl.php.net && \
     apt-get install -y --no-install-recommends \

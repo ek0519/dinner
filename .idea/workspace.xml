@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fb11f12-d95e-4945-99f6-14c9e3b1c5b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/Laravel_11_7_20__6_19_PM.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dinner.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.phpstorm.meta.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_ide_helper_models.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/ide-helper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeders/UserSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.docker/supervisord.conf" beforeDir="false" afterPath="$PROJECT_DIR$/.docker/supervisord.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Meal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Meal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/MealFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/MealFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/MealSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/MealSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="5fb11f12-d95e-4945-99f6-14c9e3b1c5b0" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -187,6 +158,11 @@
     <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
@@ -226,13 +202,15 @@
       <screen x="1440" y="-256" width="2560" height="1417" />
     </state>
     <state x="2473" y="176" key="com.jetbrains.php.test.PhpNewTestDialog/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604746048309" />
-    <state x="340" y="120" width="759" height="682" key="find.popup" timestamp="1604751903790">
-      <screen x="0" y="23" width="1440" height="877" />
+    <state x="340" y="100" width="759" height="700" key="find.popup" timestamp="1604810887642">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="340" y="100" width="759" height="700" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1604810887642" />
     <state x="340" y="120" width="759" height="682" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751903790" />
-    <state x="301" y="23" width="850" height="1032" key="search.everywhere.popup" timestamp="1604751997416">
-      <screen x="0" y="23" width="1440" height="877" />
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup" timestamp="1604811261049">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1604811261049" />
     <state x="301" y="23" width="850" height="1032" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751997416" />
   </component>
 </project>
