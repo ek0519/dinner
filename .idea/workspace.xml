@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fb11f12-d95e-4945-99f6-14c9e3b1c5b0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +153,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -183,7 +183,7 @@
       <workItem from="1604744311291" duration="9246000" />
       <workItem from="1604803544889" duration="118000" />
       <workItem from="1604808429585" duration="762000" />
-      <workItem from="1604830478035" duration="198000" />
+      <workItem from="1604830478035" duration="1556000" />
     </task>
     <servers />
   </component>
@@ -198,6 +198,26 @@
       <screen x="1440" y="-256" width="2560" height="1417" />
     </state>
     <state x="2382" y="80" key="#Inspections/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604745960988" />
+    <state x="1880" y="74" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604847633796">
+      <screen x="1440" y="-256" width="2560" height="1417" />
+    </state>
+    <state x="1880" y="74" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604847633796" />
+    <state width="1356" height="318" key="GridCell.Tab.0.bottom" timestamp="1604848094002">
+      <screen x="1440" y="-256" width="2560" height="1417" />
+    </state>
+    <state width="1356" height="318" key="GridCell.Tab.0.bottom/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604848094002" />
+    <state width="1356" height="318" key="GridCell.Tab.0.center" timestamp="1604848094001">
+      <screen x="1440" y="-256" width="2560" height="1417" />
+    </state>
+    <state width="1356" height="318" key="GridCell.Tab.0.center/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604848094001" />
+    <state width="1356" height="318" key="GridCell.Tab.0.left" timestamp="1604848094000">
+      <screen x="1440" y="-256" width="2560" height="1417" />
+    </state>
+    <state width="1356" height="318" key="GridCell.Tab.0.left/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604848094000" />
+    <state width="1356" height="318" key="GridCell.Tab.0.right" timestamp="1604848094001">
+      <screen x="1440" y="-256" width="2560" height="1417" />
+    </state>
+    <state width="1356" height="318" key="GridCell.Tab.0.right/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604848094001" />
     <state x="2166" y="-40" key="SettingsEditor" timestamp="1604746386657">
       <screen x="1440" y="-256" width="2560" height="1417" />
     </state>
