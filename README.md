@@ -1,5 +1,6 @@
 # Lesson 1 Laravel Start and DB Schema Design
 
+###### tags: `Laravel`
 
 ## 啟用Laravel
 
