@@ -21,7 +21,7 @@ class CreateMealsTable extends Migration
             $table->string('meal_name');
             $table->unsignedDecimal('price', 8, 0);
             $table->text('description');
-            $table->string('meal_img');
+            $table->string('meal_img')->nullable();
             $table->unsignedBigInteger('status');
 
         });

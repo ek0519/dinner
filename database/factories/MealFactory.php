@@ -22,7 +22,7 @@ class MealFactory extends Factory
     public function definition()
     {
         return [
-            //
+
         ];
     }
 }

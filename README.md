@@ -1,61 +1,174 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Lesson 1 Laravel Start and DB Schema Design
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## 啟用Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 下載專案
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+https://github.com/ek0519/dinner
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash=
+git clone https://github.com/ek0519/dinner
+```
 
-## Learning Laravel
+## 設定 .env
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash=
+cp .env.example .env
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 啟用
 
-## Laravel Sponsors
+```bash    
+docker-composer build --no-cache
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 成功
 
-### Premium Partners
+http://127.0.0.1:8000/
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+![](https://i.imgur.com/dUYHr0n.png)
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Laravel MVC架構
+![](https://i.imgur.com/7zOk81G.png)
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## 資料庫設計
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+https://docs.google.com/spreadsheets/d/1zVXo6KScV9tkyMXmqquF-1d1p_LL-CEMH_lGFhPKkxY/edit#gid=0
 
-## License
+### 資料型態
+[參考](https://www.mysqltutorial.org/mysql-data-types.aspx/)
+![](https://i.imgur.com/62QxwUq.jpg)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Primary Key
+[參考](https://www.mysqltutorial.org/mysql-primary-key/)
+
+> A primary key is a column or a set of columns that uniquely identifies each row in the table.  The primary key follows these rules:
+> 1. A primary key must contain unique values
+> 2. A primary key column cannot have NULL values.
+> 3. A table can have one an only one primary key.
+
+### foreign key
+[參考](https://www.mysqltutorial.org/mysql-foreign-key/)
+
+> A foreign key is a column or group of columns in a table that links to a column or group of columns in another table. 
+
+![](https://i.imgur.com/1nOaGuy.png)
+
+### UNIQUE Constraint
+[參考](https://www.mysqltutorial.org/mysql-unique-constraint/)
+
+> Sometimes, you want to ensure values in a column or a group of columns are unique. For example, email addresses of users in the users table, or phone numbers of customers in the customers table should be unique. To enforce this rule, you use a UNIQUE constraint.
+
+### NOT NULL Constraint
+[參考](https://www.mysqltutorial.org/mysql-not-null-constraint/)
+
+> The NOT NULL constraint is a column constraint that ensures values stored in a column are not NULL.
+
+
+### Schema diagram
+
+#### [免費服務](https://dbdiagram.io)
+![](https://i.imgur.com/yeunB1O.png)
+
+[參考](https://dbdiagram.io/d/5fa6582c3a78976d7b7ae585)
+
+### DB Relation
+
+#### 一對一(one to one)
+
+**user**資料表儘量和登入有關，其他欄位可以用 **user_info**，讓同屬一個資料分離常異動的資料。
+
+#### 一對多或是多對一(one to many)
+
+多種物品，單一歸屬，像是爸爸的拖鞋或是爸爸的汽車，有多樣東西，都屬於爸爸。
+
+#### 多對多(many to many)
+在博客來買書，所有的書可以被你買走，也可以被我買走
+
+## Laravel Defining Models( use Object–relational mapping)
+[參考](https://laravel.com/docs/8.x/eloquent#defining-models)
+
+簡化與資料庫的連線，透過model定義欄位與table與資料庫連線取得資料。
+
+
+```bash=
+php artisan make:model ModelName -參數
+```
+ModelName 通常用單數命名
+產生出的table 以複數命名
+
+### 參數
+* migration(定義資料庫變動)
+**m**
+* factory(假資料產生)
+**f**
+
+* seed(資料填充)
+**s**
+
+* controller(資料流程控制)
+**c**
+
+```bash=
+php artisan make:model ModelName -mfs
+```
+
+## Eloquent Model Conventions
+[參考](https://laravel.com/docs/8.x/eloquent#eloquent-model-conventions)
+```php=
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Flight extends Model
+{
+    //
+}
+```
+
+### fillable 
+填寫資料寫入允許的欄位
+```php=
+protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+```
+
+
+### hidden
+撈出資料時候預設不顯示
+```php=
+protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+```
+
+### casts
+預設資料撈出來時的格式
+```php=
+protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+```
+
+
+## migration
+
+[參考](https://laravel.com/docs/8.x/migrations#creating-columns)
+
+
+
+## 同步資料庫
+
+```php=
+php artisan migrate
+```
