@@ -1,5 +1,8 @@
 # Lesson 1 Laravel Start and DB Schema Design
 
+[![hackmd-github-sync-badge](https://hackmd.io/WeU4_6PuS1KgvE1CzyH87w/badge)](https://hackmd.io/WeU4_6PuS1KgvE1CzyH87w)
+
+
 ###### tags: `Laravel`
 
 ---
@@ -214,3 +217,11 @@ protected $casts = [
 ```php=
 php artisan migrate
 ```
+
+## 作業
+1. 設計自己案子的schema，使用excel
+2. 嘗試寫一個Modal與他的migration
+
+## 報告
+1. [laravel migration](https://laravel.com/docs/8.x/migrations#creating-columns)在設計 `作業`時用到的 `Column Types` 以及挑選原因
+2. [run migration](https://laravel.com/docs/8.x/migrations#running-migrations) ":"後面參數的用法
