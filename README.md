@@ -1,5 +1,8 @@
 # Lesson 2 Router, RESTful, Controller
 
+[![hackmd-github-sync-badge](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q/badge)](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q)
+
+
 ###### tags: `Laravel` `Router` `controller`
 
 ---
