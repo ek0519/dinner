@@ -1,216 +1,266 @@
-# Lesson 1 Laravel Start and DB Schema Design
+# Lesson 2 Router, RESTful, Controller
 
-###### tags: `Laravel`
+###### tags: `Laravel` `Router` `controller`
 
 ---
 
-## 啟用Laravel
+## Router
 
-## 下載專案
+簡單的(closure)直接return 
+```php=
+Route::get('foo', function () {
+    return 'Hello World';
+});
 
-https://github.com/ek0519/dinner
+```
+比較少會這樣寫....
+
+----
+
+我們比較喜歡....
+
+```php=
+use App\Http\Controllers\UserController;
+
+Route::get('/user', [UserController::class, 'index']);
+
+```
+
+[參考](https://laravel.com/docs/8.x/routing#the-default-route-files)
+
+----
+
+### Route Parameters
+[參考](https://laravel.com/docs/8.x/routing#route-parameters)
+
+```php=
+Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    //
+});
+```
+用 **{**變數**}** 放入變數
+
+---
+
+### [Route Groups](https://laravel.com/docs/8.x/routing#route-groups)
+> Route groups allow you to share route attributes, such as middleware, across a large number of routes without needing to define those attributes on each individual route.
+
+----
+
+#### Middleware
+```php=
+Route::middleware(['first', 'second'])->group(function () {
+    Route::get('/', function () {
+        // Uses first & second middleware...
+    });
+
+    Route::get('user/profile', function () {
+        // Uses first & second middleware...
+    });
+});
+```
+
+----
+
+#### Route Prefixes
+
+網址有共同的路徑
+* /admin/users
+* /admin/products
+```php=
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('users', function () {
+        // Matches The "/admin/users" URL
+    });
+    
+    Route::get('products', function () {
+        // Matches The "/admin/users" URL
+    });
+});
+```
+
+---
+
+
+## Controller
+
+### [RESTful](https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller)
+`Representational state transfer `
+
+
+![](https://i.imgur.com/miPVNOQ.png =600x)
+
+----
+
+#### get:
+取資料，一般用於顯示，可用參數代資料，參數通常為可有可無的。
+#### post
+送資料，一用於新增資料，可以夾帶檔案(form-data)
+
+----
+
+#### put
+整筆資料更新
+#### patch
+部分資料更新
+#### delete
+刪除資料用
+
+
+----
+
+### [HTTP Status Code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+> **100** Informational responses (100–199),
+**200** Successful responses (200–299),
+**300** Redirects (300–399),
+**400** Client errors (400–499),
+**500** and Server errors (500–599).
+
+---
+
+## JSON(JavaScript Object Notation)
+
+```json=
+{
+    "key": "value"
+}
+
+{
+    "key": ["v", "a", "l", "u", "e"]
+}
+
+{
+    "key": {
+        "k": "value",
+        "e": "value",
+        "y": "value"
+    }
+}
+```
+
+---
+
+### Basic Controllers
+
+#### Create Controller
 
 ```bash=
-git clone https://github.com/ek0519/dinner
+php artisan make:controller [Model]Controller
 ```
 
-----
-
-## 設定 .env
-
+##### example
 ```bash=
-cp .env.example .env
-```
-
-## 啟用
-
-```bash    
-docker-composer build --no-cache
+php artisan make:controller UserController
 ```
 
 ----
 
-## 成功
-
-http://127.0.0.1:8000/
-
-![](https://i.imgur.com/dUYHr0n.png =600x)
-
-
----
-
-## Laravel MVC架構
-![](https://i.imgur.com/acfmL22.png =700x)
-
-
-
----
-
-
-## 資料庫設計
-
-----
-
-### 資料型態
-
-
-![](https://i.imgur.com/62QxwUq.jpg =600x)
-
-[參考](https://www.mysqltutorial.org/mysql-data-types.aspx/) 
-
-----
-
-### [Primary Key](https://www.mysqltutorial.org/mysql-primary-key/)
-
-> A primary key is a column or a set of columns that uniquely identifies each row in the table.  The primary key follows these rules:
-> 1. A primary key must contain unique values
-> 2. A primary key column cannot have NULL values.
-> 3. A table can have one an only one primary key.
-
-----
-
-### [Foreign key](https://www.mysqltutorial.org/mysql-foreign-key/)
-
-> A foreign key is a column or group of columns in a table that links to a column or group of columns in another table. 
-
-![](https://i.imgur.com/1nOaGuy.png =300x)
-
-----
-
-### [UNIQUE Constraint](https://www.mysqltutorial.org/mysql-unique-constraint/)
-
-> Sometimes, you want to ensure values in a column or a group of columns are unique. For example, email addresses of users in the users table, or phone numbers of customers in the customers table should be unique. To enforce this rule, you use a UNIQUE constraint.
-
-----
-
-### [NOT NULL Constraint](https://www.mysqltutorial.org/mysql-not-null-constraint/)
-
-> The NOT NULL constraint is a column constraint that ensures values stored in a column are not NULL.
-
-----
-
-### [Schema diagram](https://docs.google.com/spreadsheets/d/1zVXo6KScV9tkyMXmqquF-1d1p_LL-CEMH_lGFhPKkxY/edit#gid=0)
-
-
-
-#### [免費服務 dbdiagram](https://dbdiagram.io)
-![](https://i.imgur.com/yeunB1O.png =600x)
-
-[參考](https://dbdiagram.io/d/5fa6582c3a78976d7b7ae585)
-
----
-
-## DB Relation
-
-----
-
-#### 一對一(one to one)
-
-**user**資料表儘量和登入有關，其他欄位可以用 **user_info**，讓同屬一個資料分離常異動的資料。
-
-----
-
-#### 一對多或是多對一(one to many)
-
-多種物品，單一歸屬，像是爸爸的拖鞋或是爸爸的汽車，有多樣東西，都屬於爸爸。
-
-----
-
-#### 多對多(many to many)
-在博客來買書，所有的書可以被你買走，也可以被我買走
-
----
-
-## [Laravel Defining Models( use Object–relational mapping)](https://laravel.com/docs/8.x/eloquent#defining-models)
-
-簡化與資料庫的連線，透過model定義欄位與table與資料庫連線取得資料。
-
-----
-
-### 新增Modal
-
-```bash=
-php artisan make:model ModelName -參數
-```
-ModelName 通常用單數命名，產生出的table 以複數命名
-
-----
-
-#### 參數
-* migration(定義資料庫變動)
-**m**
-* factory(假資料產生)
-**f**
-* seed(資料填充)
-**s**
-* controller(資料流程控制)
-**c**
-
-```bash=
-php artisan make:model ModelName -mfs
-```
-
----
-
-## Eloquent Model Conventions
-[參考](https://laravel.com/docs/8.x/eloquent#eloquent-model-conventions)
 ```php=
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
-class Flight extends Model
+class UserController extends Controller
 {
-    //
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function show($id)
+    {
+        return view('user.profile', ['user' => User::findOrFail($id)]);
+    }
 }
 ```
 
 ----
 
-### fillable 
-填寫資料寫入允許的欄位
+#### Single Action Controllers
+
+```bash=
+php artisan make:controller ShowProfile --invokable
+```
 ```php=
-protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+
+class ShowProfile extends Controller
+{
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function __invoke($id)
+    {
+        return view('user.profile', ['user' => User::findOrFail($id)]);
+    }
+}
 ```
 
 ----
 
-### hidden
-撈出資料時候預設不顯示
+##### In Router
+
 ```php=
-protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+use App\Http\Controllers\ShowProfile;
+
+Route::get('user/{id}', ShowProfile::class);
 ```
 
 ----
 
-### casts
-預設資料撈出來時的格式
+#### JSON Response
+
 ```php=
-protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+
+class ShowProfile extends Controller
+{
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function __invoke($id)
+    {
+        return response()->json([
+            "key" => 'value'
+        ], 200);
+    }
+}
 ```
 
 ---
 
+## 作業
+1. 完成 案子的 router
+2. 完成 案子的 controller
 
-## migration
+## 讀書報告
+* [request](https://laravel.com/docs/8.x/requests)
 
-[參考](https://laravel.com/docs/8.x/migrations#creating-columns)
 
-----
 
-## 同步資料庫
 
-```php=
-php artisan migrate
-```
+
+
+
+
