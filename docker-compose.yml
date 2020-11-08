@@ -12,6 +12,7 @@ services:
         - INSTALL_NODE=true
     ports:
       - "8000:80"
+      - "2222:22"
       - "6001:6001"
     depends_on:
       - mysql

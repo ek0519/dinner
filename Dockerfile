@@ -21,6 +21,7 @@ RUN apt-get update -y && \
         gnupg2 \
         nano \
         apt-utils \
+        openssh-server \
         curl \
         libmemcached-dev \
         libz-dev \
@@ -92,10 +93,21 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 ###########################################################################
 
 # Install composer and add its bin to the PATH.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer --version=1.10.1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
-#install parallel composer install
-RUN composer global require hirak/prestissimo
+
+###########################################################################
+# SSH:
+###########################################################################
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN mkdir /var/run/sshd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
 
 
 #
@@ -122,12 +134,10 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # Copy source files
 COPY --chown=www-data:www-data . $APP_HOME
 
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+RUN composer install --no-interaction --optimize-autoloader
 
 WORKDIR /var/www/html
 
 EXPOSE 80
 
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-
-
