@@ -27,8 +27,25 @@ cp .env.example .env
 
 ## 啟用
 
+安裝docker相關
 ```bash    
-docker-composer build --no-cache
+docker-compose build --no-cache
+```
+啟用 docker
+```bash
+docker-compose up
+```
+
+另外一個terminal 進入docker內部
+```bash
+docker-compose exec laravel bash
+```
+
+----
+
+執行套件安裝
+```bash
+compsoer install
 ```
 
 ----
