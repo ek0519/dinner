@@ -28,6 +28,7 @@ use App\Http\Controllers\UserController;
 Route::get('/user', [UserController::class, 'index']);
 
 ```
+因為還有牽扯到 `php artisan route:cache` 問題
 
 [參考](https://laravel.com/docs/8.x/routing#the-default-route-files)
 
@@ -113,6 +114,7 @@ Route::prefix('admin')->group(function () {
 
 
 ----
+
 
 ### [HTTP Status Code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 
@@ -212,6 +214,107 @@ class ShowProfile extends Controller
         return view('user.profile', ['user' => User::findOrFail($id)]);
     }
 }
+```
+
+----
+
+#### Resource Controllers
+
+```bash=
+php artisan make:controller PhotoController --resource
+```
+```php=
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PhotoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
+
+```
+
+#### Resource route
+
+```php=
+Route::resource('photos', PhotoController::class);
 ```
 
 ----
