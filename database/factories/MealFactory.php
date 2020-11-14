@@ -21,8 +21,15 @@ class MealFactory extends Factory
      */
     public function definition()
     {
+        $meals = ['排骨', '雞腿', '蝦捲', '控肉'];
+        $staple = ['麵', '飯'];
+        $price = [70 ,80 ,90 ,100];
         return [
-
+            'meal_name' => $meals[array_rand($meals)] . $staple[array_rand($staple)] . (string)$this->faker->numberBetween(100, 999),
+            'price' => $price[array_rand($price)],
+            'description' => '香噴噴',
+            'meal_img' => '',
+            'status' => 1,
         ];
     }
 }
