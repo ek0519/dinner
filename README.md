@@ -1,4 +1,7 @@
 # Lesson 3 ORM(1) and Tinker
+
+[![hackmd-github-sync-badge](https://hackmd.io/ev0nbH2GSV6amwT9kS9SHA/badge)](https://hackmd.io/ev0nbH2GSV6amwT9kS9SHA)
+
 ###### tags: `Laravel` `ORM` `Tinker` `Factory` `Seeder` `Where` `Select`
 
 ---
