@@ -17,30 +17,12 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::resource('meals', MealController::class);
+//        ->except();
 
-Route::prefix('meals')->group(function (){
-    Route::get('/', [MealController::class, 'index']);
-    Route::post('/', [MealController::class, 'store']);
-    Route::put('/', [MealController::class, 'update']);
-    Route::get('/{id}', [MealController::class, 'show']);
-    Route::delete('/{id}', [MealController::class, 'destroy']);
-});
+Route::resource('users', UserController::class);
 
-Route::prefix('users')->group(function (){
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, 'store']);
-    Route::put('/', [UserController::class, 'update']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
-});
-
-Route::prefix('orders')->group(function (){
-    Route::get('/', [OrderController::class, 'index']);
-    Route::post('/', [OrderController::class, 'store']);
-    Route::put('/', [OrderController::class, 'update']);
-    Route::get('/{id}', [OrderController::class, 'show']);
-    Route::delete('/{id}', [OrderController::class, 'destroy']);
-});
+Route::resource('orders', OrderController::class);
 
 Route::resource('purchases', PurchaseController::class);
 
