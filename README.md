@@ -1,372 +1,364 @@
-# Lesson 2 Router, RESTful, Controller
-
-[![hackmd-github-sync-badge](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q/badge)](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q)
-
-
-###### tags: `Laravel` `Router` `controller`
+# Lesson 4 ORM(2) and Insomnia
+###### tags: `Laravel` `ORM` `Insomnia`
 
 ---
 
-## Router
+## Inserting & Updating Models
 
-簡單的(closure)直接return 
-```php=
-Route::get('foo', function () {
-    return 'Hello World';
-});
-
-```
-比較少會這樣寫....
-
-----
-
-我們比較喜歡....
+### Inserts
 
 ```php=
-use App\Http\Controllers\UserController;
+use App\Models\Flight;
 
-Route::get('/user', [UserController::class, 'index']);
+$flight = new Flight;
 
-```
-因為還有牽扯到 `php artisan route:cache` 問題
+$flight->name = $request->name;
 
-[參考](https://laravel.com/docs/8.x/routing#the-default-route-files)
-
-----
-
-### Route Parameters
-[參考](https://laravel.com/docs/8.x/routing#route-parameters)
-
-```php=
-Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
-    //
-});
-```
-用 **{**變數**}** 放入變數
-
----
-
-### [Route Groups](https://laravel.com/docs/8.x/routing#route-groups)
-> Route groups allow you to share route attributes, such as middleware, across a large number of routes without needing to define those attributes on each individual route.
-
-----
-
-#### Middleware
-```php=
-Route::middleware(['first', 'second'])->group(function () {
-    Route::get('/', function () {
-        // Uses first & second middleware...
-    });
-
-    Route::get('user/profile', function () {
-        // Uses first & second middleware...
-    });
-});
+$flight->save();
 ```
 
 ----
 
-#### Route Prefixes
+### Updates
 
-網址有共同的路徑
-* /admin/users
-* /admin/products
 ```php=
+$flight = App\Models\Flight::find(1);
 
+$flight->name = 'New Flight Name';
 
-Route::prefix('admin')->group(function () {
-    Route::get('users', function () {
-        // Matches The "/admin/users" URL
-    });
-    
-    Route::get('products', function () {
-        // Matches The "/admin/users" URL
-    });
-});
+$flight->save();
+```
+
+----
+
+#### Mass Updates
+```php=
+App\Models\Flight::where('active', 1)
+          ->where('destination', 'San Diego')
+          ->update(['delayed' => 1]);
 ```
 
 ---
 
+### Mass Assignment
+```php=
+<?php
 
-## Controller
+namespace App\Models;
 
-### [RESTful](https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller)
-`Representational state transfer `
+use Illuminate\Database\Eloquent\Model;
 
-
-![](https://i.imgur.com/miPVNOQ.png =600x)
-
-----
-
-#### get:
-取資料，一般用於顯示，可用參數代資料，參數通常為可有可無的。
-#### post
-送資料，一用於新增資料，可以夾帶檔案(form-data)
-
-----
-
-#### put
-整筆資料更新
-#### patch
-部分資料更新
-#### delete
-刪除資料用
-
-
-----
-
-
-### [HTTP Status Code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
-
-> **100** Informational responses (100–199),
-**200** Successful responses (200–299),
-**300** Redirects (300–399),
-**400** Client errors (400–499),
-**500** and Server errors (500–599).
-
----
-
-## JSON(JavaScript Object Notation)
-
-```json=
+class Flight extends Model
 {
-    "key": "value"
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
 }
+```    
 
-{
-    "key": ["v", "a", "l", "u", "e"]
-}
+----
 
-{
-    "key": {
-        "k": "value",
-        "e": "value",
-        "y": "value"
-    }
-}
+If you would like to make all attributes mass assignable, you may define the $guarded property as an empty array:
+
+```php=
+protected $guarded = [];
 ```
 
 ---
 
-### Basic Controllers
+## Other Creation Methods
 
-#### Create Controller
+### firstOrCreate/ firstOrNew
 
-```bash=
-php artisan make:controller [Model]Controller
+#### firstOrCreate
+```php=
+// Retrieve flight by name, or create it if it doesn't exist...
+$flight = App\Models\Flight::firstOrCreate(['name' => 'Flight 10']);
+
+// Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes...
+$flight = App\Models\Flight::firstOrCreate(
+    ['name' => 'Flight 10'],
+    ['delayed' => 1, 'arrival_time' => '11:30']
+);
+
 ```
 
-##### example
-```bash=
-php artisan make:controller UserController
+----
+
+#### firstOrNew
+```php=
+// Retrieve by name, or instantiate...
+$flight = App\Models\Flight::firstOrNew(['name' => 'Flight 10']);
+
+// Retrieve by name, or instantiate with the name, delayed, and arrival_time attributes...
+$flight = App\Models\Flight::firstOrNew(
+    ['name' => 'Flight 10'],
+    ['delayed' => 1, 'arrival_time' => '11:30']
+);
 ```
+
+----
+
+#### Different
+
+> Note that the model returned by firstOrNew has not yet been persisted to the database. You will need to call save manually to persist it:
+
+---
+
+### updateOrCreate
+
+```php=
+$flight = App\Models\Flight::updateOrCreate(
+    ['departure' => 'Oakland', 'destination' => 'San Diego'],
+    ['price' => 99, 'discounted' => 1]
+);
+```
+
+---
+
+## Deleting Models
+
+### Deleting An Existing Model By Key
+
+```php=
+App\Models\Flight::destroy(1);
+
+App\Models\Flight::destroy(1, 2, 3);
+
+App\Models\Flight::destroy([1, 2, 3]);
+
+App\Models\Flight::destroy(collect([1, 2, 3]));
+```
+
+----
+
+### Deleting Models By Query
+
+```php=
+$deletedRows = App\Models\Flight::where('active', 0)->delete();
+```
+
+---
+
+## Soft Deleting
+
+```php=
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Flight extends Model
+{
+    use SoftDeletes;
+}
+```
+
+----
+
+## Querying Soft Deleted Models
+
+**withTrashed**
+```php=
+$flights = App\Models\Flight::withTrashed()
+                ->where('account_id', 1)
+                ->get();
+```
+
+----
+
+### Retrieving Only Soft Deleted Models
+
+**onlyTrashed**
+```php=
+$flights = App\Models\Flight::onlyTrashed()
+                ->where('airline_id', 1)
+                ->get();
+```
+
+---
+
+## Local Scopes
+
+Local scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, prefix an Eloquent model method with scope.
 
 ----
 
 ```php=
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
-class UserController extends Controller
+class User extends Model
 {
     /**
-     * Show the profile for the given user.
+     * Scope a query to only include popular users.
      *
-     * @param  int  $id
-     * @return \Illuminate\View\View
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function show($id)
+    public function scopePopular($query)
     {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
+        return $query->where('votes', '>', 100);
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
     }
 }
 ```
 
 ----
 
-#### Single Action Controllers
+and
 
-```bash=
-php artisan make:controller ShowProfile --invokable
+```php=
+$users = User::active()->get();
 ```
+equal
+```php=
+$users = User::where('active', 1)->get();
+```
+
+----
+
+### Dynamic Scopes
+
 ```php=
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
-class ShowProfile extends Controller
+class User extends Model
 {
     /**
-     * Show the profile for the given user.
+     * Scope a query to only include users of a given type.
      *
-     * @param  int  $id
-     * @return \Illuminate\View\View
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function __invoke($id)
+    public function scopeOfType($query, $type)
     {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
+        return $query->where('type', $type);
     }
 }
 ```
 
 ----
 
-#### Resource Controllers
-
-```bash=
-php artisan make:controller PhotoController --resource
-```
-```php=
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class PhotoController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
-
-```
-
-#### Resource route
+Now, you may pass the parameters when calling the scope:
 
 ```php=
-Route::resource('photos', PhotoController::class);
+$users = App\Models\User::ofType('admin')->get();
+```
+
+---
+
+## Database: Query Builder
+
+### Inserts
+
+```php=
+DB::table('users')->insert([
+    ['email' => 'taylor@example.com', 'votes' => 0],
+    ['email' => 'dayle@example.com', 'votes' => 0],
+]);
 ```
 
 ----
 
-##### In Router
+### Auto-Incrementing IDs
+
+If the table has an auto-incrementing id, use the insertGetId method to insert a record and then retrieve the ID:
 
 ```php=
-use App\Http\Controllers\ShowProfile;
+$id = DB::table('users')->insertGetId(
+    ['email' => 'john@example.com', 'votes' => 0]
+);
+```
 
-Route::get('user/{id}', ShowProfile::class);
+---
+
+### Updates
+
+```php=
+$affected = DB::table('users')
+              ->where('id', 1)
+              ->update(['votes' => 1]);
 ```
 
 ----
 
-#### JSON Response
+#### Update Or Insert
+```php=
+DB::table('users')
+    ->updateOrInsert(
+        ['email' => 'john@example.com', 'name' => 'John'],
+        ['votes' => '2']
+    );
+```
+
+---
+
+### Increment & Decrement
+
+用於計算點閱次數
 
 ```php=
-namespace App\Http\Controllers;
+DB::table('users')->increment('votes');
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+DB::table('users')->increment('votes', 5);
 
-class ShowProfile extends Controller
-{
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function __invoke($id)
-    {
-        return response()->json([
-            "key" => 'value'
-        ], 200);
-    }
-}
+DB::table('users')->decrement('votes');
+
+DB::table('users')->decrement('votes', 5);
 ```
+
+---
+
+## Deletes
+
+```php=
+DB::table('users')->delete();
+
+DB::table('users')->where('votes', '>', 100)->delete();
+```
+
+---
+
+## [Insomnia](https://insomnia.rest/)
+
+### download
+![](https://i.imgur.com/MDya1h2.png =700x)
+
+----
+
+### Environment Variables
+
+[參考](https://support.insomnia.rest/article/18-environment-variables)
 
 ---
 
 ## 作業
-1. 完成 案子的 router
-2. 完成 案子的 controller
+
+* 建立 UserControler與 MealController 的CRUD
 
 ## 讀書報告
-* [request](https://laravel.com/docs/8.x/requests)
-
-
-
-
-
-
-
-
+* [Blade 1/2](https://laravel.com/docs/8.x/blade#introduction)
