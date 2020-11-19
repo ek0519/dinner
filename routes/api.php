@@ -29,7 +29,7 @@ Route::prefix('meals')->group(function (){
 Route::prefix('users')->group(function (){
     Route::get('/', [UserController::class, 'index']);
     Route::post('/', [UserController::class, 'store']);
-    Route::put('/', [UserController::class, 'update']);
+    Route::put('/{id}', [UserController::class, 'update']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });

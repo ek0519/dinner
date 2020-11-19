@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -13,12 +14,19 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        return 'store';
+        return response()->json([
+            'status' => Response::HTTP_CREATED,
+            'data' => $request->all()
+        ]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        return 'update';
+        return response()->json([
+            'status' => Response::HTTP_CREATED,
+            'data' => $request->all(),
+            'edit_id' => $id
+        ]);
     }
 
     public function show(Request $request, int $id)
