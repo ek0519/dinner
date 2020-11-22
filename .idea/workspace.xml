@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fb11f12-d95e-4945-99f6-14c9e3b1c5b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.php_cs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Traits/ApiResponser.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.php_cs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.php_cs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MealController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MealController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="lessone4" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PackageJsonUpdateNotifier">
@@ -195,6 +201,8 @@
       <workItem from="1605325153220" duration="982000" />
       <workItem from="1605351416635" duration="251000" />
       <workItem from="1605352025315" duration="5055000" />
+      <workItem from="1606034423946" duration="106000" />
+      <workItem from="1606034550675" duration="1133000" />
     </task>
     <servers />
   </component>
@@ -222,11 +230,16 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="318" height="242" key="DatabaseViewActions_Filter/0.0.1440.900@0.0.1440.900" timestamp="1605358824995" />
-    <state x="0" y="0" width="1440" height="900" key="SettingsEditor" timestamp="1605363244068">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="2051" y="330" key="NewPhpFileDialog" timestamp="1605971208814">
+      <screen x="1440" y="-254" width="2560" height="1415" />
+    </state>
+    <state x="2051" y="330" key="NewPhpFileDialog/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605971208814" />
+    <state x="1440" y="-254" width="1440" height="900" key="SettingsEditor" timestamp="1605968116111">
+      <screen x="1440" y="-254" width="2560" height="1415" />
     </state>
     <state x="0" y="0" width="1440" height="900" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1605363244068" />
     <state x="2166" y="-40" key="SettingsEditor/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604851697740" />
+    <state x="1440" y="-254" key="SettingsEditor/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605968116111" />
     <state x="2107" y="356" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604850376650">
       <screen x="1440" y="-256" width="2560" height="1417" />
     </state>
@@ -235,17 +248,18 @@
       <screen x="1440" y="-256" width="2560" height="1417" />
     </state>
     <state x="2473" y="176" key="com.jetbrains.php.test.PhpNewTestDialog/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604746048309" />
-    <state x="340" y="100" width="759" height="700" key="find.popup" timestamp="1604810887642">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="2044" y="-97" width="1350" height="1101" key="find.popup" timestamp="1605971973753">
+      <screen x="1440" y="-254" width="2560" height="1415" />
     </state>
     <state x="340" y="100" width="759" height="700" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1604810887642" />
     <state x="340" y="120" width="759" height="682" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751903790" />
-    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup" timestamp="1605362701499">
+    <state x="2044" y="-97" width="1350" height="1101" key="find.popup/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605971973753" />
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup" timestamp="1606034467085">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1605362701499" />
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1606034467085" />
     <state x="1975" y="-256" width="1512" height="1669" key="search.everywhere.popup/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604851227676" />
     <state x="301" y="23" width="850" height="1032" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751997416" />
-    <state x="1975" y="-254" width="1512" height="1667" key="search.everywhere.popup/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605325328383" />
+    <state x="1975" y="-254" width="1512" height="1667" key="search.everywhere.popup/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605971697280" />
   </component>
 </project>

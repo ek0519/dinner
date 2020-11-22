@@ -9,7 +9,20 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return User::where('status', 1)->paginate(5);
+        $query = User::query();
+
+        $search_fields = ['name', 'mobile', 'email', 'status'];
+
+        foreach ($search_fields as $item) {
+            if ($field = $request->input($item)) {
+                $query->where($item, $field);
+            }
+        }
+
+        $perPage = $request->input('per_page') ?? 15;
+
+        return $query->paginate($perPage)->withQueryString();
+
     }
 
     public function store(Request $request)
