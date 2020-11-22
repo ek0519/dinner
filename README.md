@@ -1,372 +1,223 @@
-# Lesson 2 Router, RESTful, Controller
-
-[![hackmd-github-sync-badge](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q/badge)](https://hackmd.io/Bfy048sIQfWu9wZI6hYb3Q)
-
-
-###### tags: `Laravel` `Router` `controller`
+# Lesson 5 ORM in Controller
+###### tags: `Laravel` `ORM` `Controller`
 
 ---
 
-## Router
+## [pagination](https://laravel.com/docs/8.x/pagination)
 
-簡單的(closure)直接return 
+
+### DB Builder
+
 ```php=
-Route::get('foo', function () {
-    return 'Hello World';
-});
-
+DB::table('users')->paginate(15);
 ```
-比較少會這樣寫....
+
+### Model
+
+```php=
+User::paginate();
+```
+
+per_page default  **15**
+
+使用 **paginate** 會預設收 **page** 參數無須額外寫
 
 ----
 
-我們比較喜歡....
+### Appending To Pagination Links
 
 ```php=
-use App\Http\Controllers\UserController;
-
-Route::get('/user', [UserController::class, 'index']);
-
+$users->appends(['sort' => 'votes']);
 ```
-因為還有牽扯到 `php artisan route:cache` 問題
-
-[參考](https://laravel.com/docs/8.x/routing#the-default-route-files)
-
-----
-
-### Route Parameters
-[參考](https://laravel.com/docs/8.x/routing#route-parameters)
-
+or
 ```php=
-Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
-    //
-});
-```
-用 **{**變數**}** 放入變數
-
----
-
-### [Route Groups](https://laravel.com/docs/8.x/routing#route-groups)
-> Route groups allow you to share route attributes, such as middleware, across a large number of routes without needing to define those attributes on each individual route.
-
-----
-
-#### Middleware
-```php=
-Route::middleware(['first', 'second'])->group(function () {
-    Route::get('/', function () {
-        // Uses first & second middleware...
-    });
-
-    Route::get('user/profile', function () {
-        // Uses first & second middleware...
-    });
-});
+$users->withQueryString();
 ```
 
 ----
 
-#### Route Prefixes
+### add other key
 
-網址有共同的路徑
-* /admin/users
-* /admin/products
+use Collection method **merge**
+
 ```php=
-
-
-Route::prefix('admin')->group(function () {
-    Route::get('users', function () {
-        // Matches The "/admin/users" URL
-    });
-    
-    Route::get('products', function () {
-        // Matches The "/admin/users" URL
-    });
-});
+$custom = collect(['status' => Response::HTTP_OK]);
+$data = $custom->merge($query->paginate($perPage)->withQueryString());
 ```
 
 ---
 
+## parameter
 
-## Controller
+```
+example 
+https://dinner.test/api/meals?price=70&per_page=10&page=2`
+```
+```php=
+$price = $request->input('price')
+```
+or
+```php=
+$price = $request->price
+```
 
-### [RESTful](https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller)
-`Representational state transfer `
-
-
-![](https://i.imgur.com/miPVNOQ.png =600x)
-
-----
-
-#### get:
-取資料，一般用於顯示，可用參數代資料，參數通常為可有可無的。
-#### post
-送資料，一用於新增資料，可以夾帶檔案(form-data)
-
-----
-
-#### put
-整筆資料更新
-#### patch
-部分資料更新
-#### delete
-刪除資料用
-
-
-----
-
-
-### [HTTP Status Code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
-
-> **100** Informational responses (100–199),
-**200** Successful responses (200–299),
-**300** Redirects (300–399),
-**400** Client errors (400–499),
-**500** and Server errors (500–599).
+$price : 70
 
 ---
 
-## JSON(JavaScript Object Notation)
+## search 
 
-```json=
+### search Meal
+
+```php=
+public function index(Request $request)
 {
-    "key": "value"
-}
-
-{
-    "key": ["v", "a", "l", "u", "e"]
-}
-
-{
-    "key": {
-        "k": "value",
-        "e": "value",
-        "y": "value"
+    $query = Meal::query();
+    if ($price = $request->input('price')) {
+        $query->where('price', $price);
     }
+
+    if ($meal_name = $request->input('meal_name')) {
+        $query->where('meal_name', 'like', '%' . $meal_name . '%');
+    }
+
+    $perPage = $request->input('per_page') ?? 15;
+
+    return $query->paginate($perPage)->withQueryString();
 }
 ```
 
 ---
 
-### Basic Controllers
+## Generalizing API Response
 
-#### Create Controller
-
-```bash=
-php artisan make:controller [Model]Controller
-```
-
-##### example
-```bash=
-php artisan make:controller UserController
-```
-
-----
+### create a trait
 
 ```php=
+// App\Traits\ApiResponser.php
+
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Traits;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 
-class UserController extends Controller
+trait ApiResponser
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function show($id)
-    {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
-    }
-}
-```
-
-----
-
-#### Single Action Controllers
-
-```bash=
-php artisan make:controller ShowProfile --invokable
-```
-```php=
-<?php
-
-namespace App\Http\Controllers;
-
-use App\Http\Controllers\Controller;
-use App\Models\User;
-
-class ShowProfile extends Controller
-{
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function __invoke($id)
-    {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
-    }
-}
-```
-
-----
-
-#### Resource Controllers
-
-```bash=
-php artisan make:controller PhotoController --resource
-```
-```php=
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class PhotoController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
-
-```
-
-#### Resource route
-
-```php=
-Route::resource('photos', PhotoController::class);
-```
-
-----
-
-##### In Router
-
-```php=
-use App\Http\Controllers\ShowProfile;
-
-Route::get('user/{id}', ShowProfile::class);
-```
-
-----
-
-#### JSON Response
-
-```php=
-namespace App\Http\Controllers;
-
-use App\Http\Controllers\Controller;
-use App\Models\User;
-
-class ShowProfile extends Controller
-{
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function __invoke($id)
+    protected function successResponse($data, $code = 200, $message=null)
     {
         return response()->json([
-            "key" => 'value'
-        ], 200);
+            'status'=> $code,
+            'message' => $message,
+            'data' => $data
+        ], $code);
+    }
+
+    protected function errorResponse($code, $message = null)
+    {
+        return response()->json([
+            'status'=> $code,
+            'message' => $message,
+            'data' => null
+        ], $code);
     }
 }
+
 ```
+
+----
+
+### use trait in controller
+
+```php=
+<?php
+....
+
+use hApp\Traits\ApiResponser;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ApiResponser;
+}
+```
+
+----
+
+### update response which in controller
+
+before
+```php=
+return response()->json([
+    'status'=> Response::HTTP_OK,
+    'data' => $data
+], Response::HTTP_OK);
+```
+after
+```php=
+return $this->successResponse($data);
+```
+
+---
+
+## [Error Handling](https://laravel.com/docs/8.x/errors)
+
+`app/Exceptions/Handler.php`
+```php=
+use App\Traits\ApiResponser;
+
+class Handler extends ExceptionHandler
+{
+    use ApiResponser;
+    ........
+    
+    /**
+     * @param Request $request
+     * @param Throwable $e
+     * @return JsonResponse|\Illuminate\Http\Response|Response|void
+     */
+    public function render($request, Throwable $e)
+    {
+        return $this->handleException($request, $e);
+    }
+
+    public function handleException(Request $request, Throwable $e)
+    {
+        if ($e instanceof MethodNotAllowedHttpException) {
+            return $this->errorResponse(405, 'The specified method for the request is invalid');
+        }
+
+        if ($e instanceof NotFoundHttpException) {
+            return $this->errorResponse(404, 'The specified URL cannot be found', );
+        }
+
+        if ($e instanceof HttpException) {
+            return $this->errorResponse($e->getStatusCode(), $e->getMessage());
+        }
+
+        if (config('app.debug')) {
+            return parent::render($request, $e);
+        }
+
+        return $this->errorResponse(500, 'Unexpected Exception. Try later');
+    }
+}
+
+```
+
+----
+
+`GET http://127.0.0.1:8000/meals/4000`
+
+![](https://i.imgur.com/GZobsTR.png =600x)
+
+[reference **Symfony\Component\HttpKernel\Exception**](https://github.com/symfony/symfony/tree/5.x/src/Symfony/Component/HttpKernel/Exception)
 
 ---
 
 ## 作業
-1. 完成 案子的 router
-2. 完成 案子的 controller
+
+- [ ] User 可以搜尋 `name` `mobile` `email` `status`，以及分頁功能 api
+- [ ] Meal 可以搜尋 `price` `meal_name` 以及分頁功能 api
+
 
 ## 讀書報告
-* [request](https://laravel.com/docs/8.x/requests)
-
-
-
-
-
-
-
-
+* [Blade-2/2](https://laravel.com/docs/8.x/blade#introduction)
