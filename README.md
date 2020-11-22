@@ -1,4 +1,7 @@
 # Lesson 5 ORM in Controller
+
+[![hackmd-github-sync-badge](https://hackmd.io/vyBIgyBQRIaBETNquA34gg/badge)](https://hackmd.io/vyBIgyBQRIaBETNquA34gg)
+
 ###### tags: `Laravel` `ORM` `Controller`
 
 ---
