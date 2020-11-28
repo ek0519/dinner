@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddMeal;
+use App\Http\Requests\UpdateMeal;
 use App\Models\Meal;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -39,16 +41,13 @@ class MealController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param AddMeal $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(AddMeal $request)
     {
-        $meal = Meal::create([
-            'meal_name' => $request->input('meal_name'),
-            'price' => $request->input('price'),
-            'description' => $request->input('description'),
-        ]);
+        $validated = $request->validated();
+        $meal = Meal::create($validated);
         return $this->successResponse($meal, Response::HTTP_CREATED);
     }
 
@@ -60,10 +59,7 @@ class MealController extends Controller
      */
     public function show(int $id)
     {
-        abort(404);
-
         $meal = Meal::findOrFail($id);
-
         return $this->successResponse($meal);
 
     }
@@ -71,17 +67,15 @@ class MealController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param UpdateMeal $request
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateMeal $request, int $id)
     {
-        Meal::find($id)->update([
-            'meal_name' => $request->input('meal_name'),
-            'price' => $request->input('price'),
-            'description' => $request->input('description'),
-        ]);
+        $validated = $request->validated();
+
+        Meal::find($id)->update($validated);
         return $this->successResponse(null, Response::HTTP_OK, 'updated');
     }
 

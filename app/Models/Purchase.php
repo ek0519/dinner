@@ -16,14 +16,14 @@ class Purchase extends Model
         'status',
     ];
 
-//    public function user()
-//    {
-//        $this->belongsTo('App\Models\User');
-//    }
-//
-//    public function order()
-//    {
-//        return $this->hasOne('App\Models\Order');
-//
-//    }
+    public function user()
+    {
+        $this->belongsTo('App\Models\User');
+    }
+
+    public function order()
+    {
+        return $this->hasOne('App\Models\Order');
+
+    }
 }

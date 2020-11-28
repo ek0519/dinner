@@ -22,13 +22,13 @@ class Order extends Model
         'purchase_id',
     ];
 
-//    public function user()
-//    {
-//        $this->belongsTo('App\Models\User');
-//    }
-//
-//    public function purchase()
-//    {
-//        $this->belongsTo('App\Models\Purchase');
-//    }
+    public function user()
+    {
+        $this->belongsTo('App\Models\User');
+    }
+
+    public function purchase()
+    {
+        $this->belongsTo('App\Models\Purchase');
+    }
 }

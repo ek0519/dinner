@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUser;
+use App\Http\Requests\UpdateUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -25,20 +28,27 @@ class UserController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(AddUser $request)
     {
-
-        return 'store';
+        $validated = $request->validated();
+        $user = User::create($validated);
+        return $this->successResponse($user);
     }
 
-    public function update(Request $request)
+    public function update(UpdateUser $request, int $id)
     {
-        return 'update';
+        $validated = $request->validated();
+        $status = User::findOrFail($id)->update($validated);
+        if ($status) {
+            return $this->successResponse(null, Response::HTTP_OK, 'updated');
+        }
+        return $this->errorResponse(Response::HTTP_SERVICE_UNAVAILABLE, 'update fail');
     }
 
     public function show(Request $request, int $id)
     {
         $user = User::findOrFail($id);
+        dd($user);
         return response()->json([
             'status' => 200,
             'data'   => $user

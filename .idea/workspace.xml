@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fb11f12-d95e-4945-99f6-14c9e3b1c5b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Traits/ApiResponser.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/AddMeal.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/AddUser.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateMeal.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateUser.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.php_cs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.php_cs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MealController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MealController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_11_07_093520_create_meals_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Purchase.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Purchase.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,7 +204,9 @@
       <workItem from="1605351416635" duration="251000" />
       <workItem from="1605352025315" duration="5055000" />
       <workItem from="1606034423946" duration="106000" />
-      <workItem from="1606034550675" duration="1133000" />
+      <workItem from="1606034550675" duration="5207000" />
+      <workItem from="1606568605006" duration="32000" />
+      <workItem from="1606568674498" duration="1200000" />
     </task>
     <servers />
   </component>
@@ -226,6 +230,14 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="320" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1605353451041" />
+    <state x="2943" y="223" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1606568610979">
+      <screen x="1440" y="-254" width="2560" height="1415" />
+    </state>
+    <state x="2943" y="223" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1606568610979" />
+    <state x="392" y="152" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606042335123">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="392" y="152" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1606042335123" />
     <state width="318" height="242" key="DatabaseViewActions_Filter" timestamp="1605358824995">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -254,10 +266,10 @@
     <state x="340" y="100" width="759" height="700" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1604810887642" />
     <state x="340" y="120" width="759" height="682" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751903790" />
     <state x="2044" y="-97" width="1350" height="1101" key="find.popup/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605971973753" />
-    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup" timestamp="1606034467085">
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup" timestamp="1606041787793">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1606034467085" />
+    <state x="301" y="0" width="850" height="1060" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1606041787793" />
     <state x="1975" y="-256" width="1512" height="1669" key="search.everywhere.popup/0.23.1440.877/1440.-256.2560.1417@1440.-256.2560.1417" timestamp="1604851227676" />
     <state x="301" y="23" width="850" height="1032" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1604751997416" />
     <state x="1975" y="-254" width="1512" height="1667" key="search.everywhere.popup/0.25.1440.875/1440.-254.2560.1415@1440.-254.2560.1415" timestamp="1605971697280" />
