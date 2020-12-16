@@ -44,9 +44,13 @@ class MealController extends Controller
      * @param AddMeal $request
      * @return JsonResponse
      */
-    public function store(AddMeal $request)
+    public function store(AddMeal $request): JsonResponse
     {
         $validated = $request->validated();
+        $extension = $request->file('meal_img')->extension();
+        $filename = hash_file('sha256', $request->file('meal_img')->getRealPath());
+        $path = $request->file('meal_img')->storePubliclyAs('meals', "{$filename}.{$extension}", 'public');
+        $validated['meal_img'] = $path;
         $meal = Meal::create($validated);
         return $this->successResponse($meal, Response::HTTP_CREATED);
     }
@@ -61,7 +65,6 @@ class MealController extends Controller
     {
         $meal = Meal::findOrFail($id);
         return $this->successResponse($meal);
-
     }
 
     /**
