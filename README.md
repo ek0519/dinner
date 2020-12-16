@@ -1,163 +1,264 @@
-# Lesson 6 Validation Guzzle
-###### tags: `Laravel` `Validation` `Guzzle`
+# Lesson 7 Filesystem and formdata
+###### tags: `Laravel` `Filesystem` `formdata`
 
 ---
 
-## Writing The Validation Logic
-```php=
-public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'title' => 'required|unique:posts|max:255',
-        'body' => 'required',
-    ]);
+## Configuration
 
-    // The blog post is valid...
-}
+`config/filesystems.php`
+
+### setting default and clound filesystem disk
+```php=
+'default' => env('FILESYSTEM_DRIVER', 'local'),
+
+'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+
+```
+
+----
+
+### Filesystem Disks
+
+1. driver
+Supported Drivers: "local", "ftp", "sftp", "s3" or other driver [gcs](https://github.com/Superbalist/laravel-google-cloud-storage)
+
+2. root
+root folder in filesystem.
+
+3. url 
+link prefix
+
+4. visibility 
+**public** or **private**
+
+```php=
+'disks' => [
+
+        'local' => [
+            'driver' => 'local',
+            'root' => storage_path('app'),
+        ],
+
+        'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        's3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+    ],
+
+```
+
+----
+
+### Symbolic Links
+create soft link from public folder to storage folder
+
+```php=
+'links' => [
+        public_path('storage') => storage_path('app/public'),
+    ],
 ```
 
 ---
 
-### A Note On Nested Attributes
-
-If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
+## The Local Driver
 
 ```php=
-$request->validate([
-    'title' => 'required|unique:posts|max:255',
-    'author.name' => 'required',
-    'author.description' => 'required',
-]);
+use Illuminate\Support\Facades\Storage;
+
+Storage::disk('local')->put('example.txt', 'Contents');
 ```
 
 ---
 
-### A Note On Optional Fields
+## The Public Disk
+To make these files accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`.
 
-use **nullable**
+To create the symbolic link, you may use the storage:link Artisan command:
 
-```php=
-$request->validate([
-    'title' => 'required|unique:posts|max:255',
-    'body' => 'required',
-    'publish_at' => 'nullable|date',
-]);
-```
-
----
-
-## Form Request Validation
-
-### Creating Form Requests
-
-
- To create a form request class, use the make:request Artisan CLI command:
- 
 ```bash=
-php artisan make:request AddMeal
+php artisan storage:link
 ```
 
 ----
 
-The generated class will be placed in the **app/Http/Requests** directory. If this directory does not exist, it will be created when you run the **make:request** command. Let's add a few validation rules to the rules method:
+You may configure additional symbolic links in your filesystems configuration file. Each of the configured links will be created when you run the storage:link command:
 
 ```php=
-/**
-     * Get the validation rules that apply to the request.
+'links' => [
+    public_path('storage') => storage_path('app/public'),
+    public_path('images') => storage_path('app/images'),
+],
+```
+
+---
+
+## Obtaining Disk Instances
+If your application interacts with multiple disks, you may use the disk method on the Storage facade to work with files on a particular disk:
+```php=
+Storage::disk('s3')->put('avatars/1', $content);
+```
+
+---
+
+## Retrieving Files
+
+```php=
+$contents = Storage::get('file.jpg');
+```
+The exists method may be used to determine if a file exists on the disk:
+```php=
+if (Storage::disk('s3')->exists('file.jpg')) {
+    // ...
+}
+```
+
+---
+
+## Downloading Files
+
+```php=
+return Storage::download('file.jpg');
+
+return Storage::download('file.jpg', $name, $headers);
+```
+
+---
+
+## File URLs
+
+```php=
+use Illuminate\Support\Facades\Storage;
+
+$url = Storage::url('file.jpg');
+```
+
+---
+
+## File Uploads
+```php=
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class UserAvatarController extends Controller
+{
+    /**
+     * Update the avatar for the user.
      *
-     * @return array
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function rules()
+    public function update(Request $request)
     {
-        return [
-            'meal_name' => 'required|min:2',
-            'price' => 'required|integer',
-            'description' => 'nullable',
-            'meal_img' => 'nullable|image',
-        ];
+        $path = $request->file('avatar')->store('avatars');
+
+        return $path;
     }
-```
-
-----
-
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
-
-----
-
-```php=
-/**
- * Store the incoming blog post.
- *
- * @param  StoreBlogPost  $request
- * @return Response
- */
-public function store(StoreBlogPost $request)
-{
-    // The incoming request is valid...
-
-    // Retrieve the validated input data...
-    $validated = $request->validated();
 }
 ```
 
 ----
 
-If validation fails, a redirect response will be generated to send the user back to their **previous location**. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, an HTTP response with a **422** status code will be returned to the user including a JSON representation of the validation errors.
-
-----
-
-### Authorizing Form Requests
-
-The form request class also contains an **authorize** method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update:
-
-----
-
+You may also call the putFile method on the Storage facade to perform the same file storage operation as the example above:
 ```php=
-/**
- * Determine if the user is authorized to make this request.
- *
- * @return bool
- */
-public function authorize()
-{
-    $comment = Comment::find($this->route('comment'));
-
-    return $comment && $this->user()->can('update', $comment);
-}
-```
-
-----
-
-If the **authorize** method returns **false**, an HTTP response with a **403** status code will automatically be returned and your controller method will not execute.
-
-
-----
-
-If you plan to have authorization logic in another part of your application, return true from the authorize method:
-
-```php=
-/**
- * Determine if the user is authorized to make this request.
- *
- * @return bool
- */
-public function authorize()
-{
-    return true;
-}
+$path = Storage::putFile('avatars', $request->file('avatar'));
 ```
 
 ---
 
-## [Available Validation Rules](https://laravel.com/docs/8.x/validation#available-validation-rules)
+## Specifying A File Name
+
+```php=
+$path = $request->file('avatar')->storeAs(
+    'avatars', $request->user()->id
+);
+```
+or
+```php=
+$path = Storage::putFileAs(
+    'avatars', $request->file('avatar'), $request->user()->id
+);
+```
 
 ---
 
+## Specifying A Disk
+
+`store` method
+```php=
+$path = $request->file('avatar')->store(
+    'avatars/'.$request->user()->id, 's3'
+);
+```
+`storeAs` method
+```php=
+$path = $request->file('avatar')->storeAs(
+    'avatars',
+    $request->user()->id,
+    's3'
+);
+```
+
 ---
+
+## Other Uploaded File Information
+
+* get upload file oreiginal name
+```php=
+$name = $request->file('avatar')->getClientOriginalName();
+```
+* get upload file extension
+```php=
+$extension = $request->file('avatar')->extension();
+```
+
+---
+
+## File Visibility
+
+default was private.
+```php=
+use Illuminate\Support\Facades\Storage;
+
+Storage::put('file.jpg', $contents, 'public');
+```
+
+
+```php=
+$path = $request->file('avatar')->storePubliclyAs(
+    'avatars',
+    $request->user()->id,
+    's3'
+);
+```
+
+---
+
 
 ## 作業
 
-- [ ] 把所有送入 `post` `put` `patch` 的資料都做驗證
+1. 在meals post的方法中加入檔案上傳功能
+2. 在取得meals時，可以得到上傳檔案的url
+
+### 參考 
+1. [增加model的attribute](https://laravel.com/docs/8.x/eloquent-mutators#defining-an-accessor)
+2. [預載attribute](https://laravel.com/docs/8.x/eloquent-serialization#appending-values-to-json)
 
 ## 讀書報告
-* [relationship](https://laravel.com/docs/8.x/eloquent-relationships#introduction)
+* [Authentication-1](https://laravel.com/docs/8.x/authentication)
